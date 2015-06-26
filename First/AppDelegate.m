@@ -20,7 +20,15 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
-    NSLog(@"第一次更改");
+    
+//    ThirdViewController *thirdVC = [[ThirdViewController alloc]init];
+//    self.window.rootViewController = thirdVC;
+//    [thirdVC release];
+    
+    ZaoWuzhuViewController *zaoVC = [[ZaoWuzhuViewController alloc]init];
+    self.window.rootViewController = zaoVC;
+    [zaoVC release];
+
     return YES;
 }
 
