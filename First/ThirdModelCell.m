@@ -19,32 +19,38 @@
 }
 - (void)addSubviews
 {
+    
      self.imaView = [[UIImageView alloc]initWithFrame:CGRectMake(kSpace + 2,2 * kSpace, 370 - 2 * kSpace, 200)];
-//    self.imaView.backgroundColor = [UIColor grayColor];
-    [self.contentView addSubview:self.imaView];
-    [self.imaView release];
+    self.imaView.backgroundColor = [UIColor whiteColor];
+    
     
     self.headView = [[UIImageView alloc]initWithFrame:CGRectMake(kSpace, self.imaView.frame.size.height + self.imaView.frame.origin.y + kSpace, 50, 80)];
     self.headView.image = [UIImage imageNamed:@"icon-hot"];
-//    self.headView.backgroundColor = [UIColor greenColor];
-    [self.contentView addSubview:self.headView];
-    [self.headView release];
+    self.headView.backgroundColor = [UIColor whiteColor];
+    
     
     self.label1 = [[UILabel alloc]initWithFrame:CGRectMake(self.headView.frame.origin.x + self.headView.frame.size.width + kSpace, self.headView.frame.origin.y, 370 - self.headView.frame.size.width - 3 * kSpace, 30)];
-//    self.label1.backgroundColor = [UIColor yellowColor];
-    [self.contentView addSubview:self.label1];
-    [self.label1 release];
+    self.label1.backgroundColor = [UIColor whiteColor];
     
     
-    self.label2 = [[UILabel alloc]initWithFrame:CGRectMake(self.label1.frame.origin.x, self.label1.frame.origin.y + self.label1.frame.size.height + kSpace , 370 - self.headView.frame.size.width - 3 * kSpace, 0)];
-//    self.label2.backgroundColor = [UIColor magentaColor];
+    
+    self.label2 = [[UILabel alloc]initWithFrame:CGRectMake(self.label1.frame.origin.x, self.label1.frame.origin.y + self.label1.frame.size.height + kSpace , 370 - self.headView.frame.size.width - 3 * kSpace, 100)];
+    self.label2.backgroundColor = [UIColor whiteColor];
     self.label2.font = [UIFont systemFontOfSize:13];
     self.label2.numberOfLines = 0;
+    
+    
     [self.contentView addSubview:self.label2];
     [self.label2 release];
     
-   
-
+    [self.contentView addSubview:self.imaView];
+    [self.imaView release];
+    
+    [self.contentView addSubview:self.headView];
+    [self.headView release];
+    
+    [self.contentView addSubview:self.label1];
+    [self.label1 release];
     
 }
 

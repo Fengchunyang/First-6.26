@@ -17,9 +17,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.navigationItem.title = @"MM推荐";
     
-_tableView = [[UITableView alloc]initWithFrame:[UIScreen mainScreen].bounds];
+     _tableView = [[UITableView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     [self.view addSubview: _tableView];
+    _tableView.backgroundColor = [UIColor blackColor];
     
     [_tableView release];
     self.bigDic = [NSDictionary dictionary];
@@ -27,34 +29,38 @@ _tableView = [[UITableView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     
     self.arr = [NSMutableArray array];
 
-    //创建网址字符串
+    
+    
+    //设置代理
+
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
     NSString *UrlStr = @"http://mmmono.com/api/category/all?page=1";
     //创建URL对象
     NSURL *url = [NSURL URLWithString:UrlStr];
-
     
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
     NetWorkEngine *net = [NetWorkEngine engineWithURL:url parameters:nil deleagte:self];
     
     [net start];
-        //设置代理
-   
+
+
+    
+    
     
     
     
 }
 
+
 - (void)netWorkDidFinishLoading:(NetWorkEngine *)engine withInfo:(id)info
 {
     NSData *data = (NSData *)info;
+    
     //大字典
         self.bigDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-        NSLog(@"%@" , self.bigDic);
+    
     //字典里的大数组
     self.arr = [self.bigDic objectForKey:@"items"];
-    NSLog(@"%@" , self.arr);
-    
 
     [self.tableView reloadData];
     
@@ -70,34 +76,23 @@ _tableView = [[UITableView alloc]initWithFrame:[UIScreen mainScreen].bounds];
         return self.arr.count;
 }
 
+#pragma mark - cell点击事件
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    Third1ViewController *third1 = [[Third1ViewController alloc]init];
+    third1.indexPath = indexPath;
+    [self.navigationController pushViewController:third1 animated:YES];
+
+}
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    DataModel *model = [[DataModel alloc]init];
-    
-    model.ImageView = [[[self.arr objectAtIndex:indexPath.row] objectForKey:@"image"] objectForKey:@"raw"];
-    
-    model.title = [[self.arr objectAtIndex:indexPath.row] objectForKey:@"title"];
-    
-    model.text = [[[self.arr objectAtIndex:indexPath.row] objectForKey:@"text"] objectForKey:@"text"];
-    NSString *str1 =[[[self.arr objectAtIndex:indexPath.row] objectForKey:@"user"]objectForKey:@"screen_name"];
-
-    NSString *str2 = [[[self.arr objectAtIndex:indexPath.row] objectForKey:@"program" ]objectForKey:@"name"];
-    model.label1Text = [NSString stringWithFormat:@"%@-%@" , str2 , str1];
-    
-    NSLog(@"%@" , model.text);
-    
-    _Hot = [[self.arr objectAtIndex:indexPath.row] objectForKey:@"hot"];
-   
-    NSLog(@"%@" , _Hot);
-    
-//    if ([_Hot isEqual:@"1"]) {
-    
+ 
+    NSDictionary *dic = [self.arr objectAtIndex:indexPath.row];
+    DataModel *model = [[DataModel alloc]initWithDictionary:dic];
+    _Hot = [dic objectForKey:@"hot"];
     if ([_Hot integerValue] == 1) {
-
-    
-    
         NSString *cellID = @"cellID";
         
         ThirdModelCell *cell1 = [tableView dequeueReusableCellWithIdentifier:cellID];
@@ -107,16 +102,14 @@ _tableView = [[UITableView alloc]initWithFrame:[UIScreen mainScreen].bounds];
             
         }
         
-        NSURL *imageUrl = [NSURL URLWithString:model.ImageView];
-        NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
         
-        cell1.imaView.image = [UIImage imageWithData:imageData];
+        NSURL *imageUrl = [NSURL URLWithString:model.ImageView];
+        [cell1.imaView sd_setImageWithURL:imageUrl];
         cell1.label1.text = model.title;
         cell1.label2.text = model.text;
         
-        
         [cell1  calculateHeight];
-
+        [model release];
         return cell1;
     }
     else {
@@ -126,11 +119,11 @@ _tableView = [[UITableView alloc]initWithFrame:[UIScreen mainScreen].bounds];
             cell = [[ThirdPageModelCell alloc]initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:cellId];
         }
         NSURL *imageUrl = [NSURL URLWithString:model.ImageView];
-        NSData *imageData = [NSData dataWithContentsOfURL:imageUrl];
-        cell.imaView.image = [UIImage imageWithData:imageData];
+        [cell.imaView sd_setImageWithURL:imageUrl];
         cell.label1.text = model.label1Text;
         cell.label2.text = model.title;
         [cell calculateHeight];
+        [model release];
         return cell;
     }
 }
@@ -143,21 +136,16 @@ _tableView = [[UITableView alloc]initWithFrame:[UIScreen mainScreen].bounds];
      if ([_Hot integerValue] == 1) {
 
         _ModelCell = (ThirdModelCell *)[self tableView:self.tableView cellForRowAtIndexPath:indexPath];
-        [_ModelCell calculateHeight];
+//        [_ModelCell calculateHeight];
 
         return _ModelCell.frame.size.height;
     }else{
         
         _PageCell = (ThirdPageModelCell *)[self tableView:self.tableView cellForRowAtIndexPath:indexPath];
-        [_PageCell calculateHeight];
+//        [_PageCell calculateHeight];
 
         return _PageCell.frame.size.height;
     }
-    
-    
-    
-    
-    
 
 }
 

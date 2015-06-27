@@ -21,13 +21,19 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-//    ThirdViewController *thirdVC = [[ThirdViewController alloc]init];
-//    self.window.rootViewController = thirdVC;
-//    [thirdVC release];
+    ThirdViewController *thirdVC = [[ThirdViewController alloc]init];
+    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:thirdVC];
+
+    self.window.rootViewController = nav;
+    [thirdVC release];
+    [nav release];
     
-    ZaoWuzhuViewController *zaoVC = [[ZaoWuzhuViewController alloc]init];
-    self.window.rootViewController = zaoVC;
-    [zaoVC release];
+//    ZaoWuzhuViewController *zaoVC = [[ZaoWuzhuViewController alloc]init];
+//    UINavigationController *nav = [[UINavigationController alloc]initWithRootViewController:zaoVC];
+//
+//    self.window.rootViewController = nav;
+//    [zaoVC release];
+//    [nav release];
 
     return YES;
 }

@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "EGOImageView.h"
 @interface ThirdModelCell : UITableViewCell
 @property (nonatomic , retain)UIImageView *imaView;
 @property (nonatomic , retain)UIImageView *headView;
 @property (nonatomic , retain)UILabel *label1;
 @property (nonatomic , retain)UILabel *label2;
+
 - (void)calculateHeight;
 @end

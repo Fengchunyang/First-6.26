@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "ZaoWuZhuModelCell.h"
 #import "ZaoWuZhuDataModel.h"
+#import "ZaoWuZhu1ViewController.h"
 @interface ZaoWuzhuViewController : UIViewController<UITableViewDataSource , UITableViewDelegate>
 @property(nonatomic , retain)UITableView *tableView;
 @property (nonatomic , retain)NSArray *imageArr;

@@ -13,4 +13,6 @@
 @property (nonatomic , retain)NSString *title;
 @property (nonatomic , retain)NSString *text;
 @property (nonatomic , retain)NSString *label1Text;
+- (instancetype)initWithDictionary:(NSDictionary *)dic
+;
 @end

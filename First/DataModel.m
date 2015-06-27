@@ -9,15 +9,36 @@
 #import "DataModel.h"
 
 @implementation DataModel
-- (instancetype)init
+- (instancetype)initWithDictionary:(NSDictionary *)dic
 {
     self = [super init];
     if ( self) {
+        if (![dic isKindOfClass:[NSNull class]]) {
+            
         
+        self.ImageView = [[dic objectForKey:@"image"] objectForKey:@"raw"];
         
+        self.title = [dic objectForKey:@"title"];
+        
+        self.text = [[dic objectForKey:@"text"] objectForKey:@"text"];
+        NSString *str1 =[[dic objectForKey:@"user"]objectForKey:@"screen_name"];
+        
+        NSString *str2 = [[dic objectForKey:@"program" ]objectForKey:@"name"];
+        self.label1Text = [NSString stringWithFormat:@"%@-%@" , str2 , str1];
+        
+
+        }
     }
     return self;
 }
+
+
+
+
+
+
+
+
 - (void)dealloc
 {
     _label1Text = nil;
