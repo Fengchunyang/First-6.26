@@ -7,6 +7,20 @@
 //
 
 #import "ThirdViewController.h"
+#import "MJRefreshAutoNormalFooter.h"
+
+#import "UIView+MJExtension.h"
+#import "MJTestViewController.h"
+#import "UIViewController+Example.h"
+#import "MJRefresh.h"
+
+// 自定义的header
+#import "MJChiBaoZiHeader.h"
+#import "MJChiBaoZiFooter.h"
+#import "MJChiBaoZiFooter2.h"
+#import "MJDIYHeader.h"
+#import "MJDIYAutoFooter.h"
+#import "MJDIYBackFooter.h"
 
 @interface ThirdViewController ()<NetWorkEngineDelegate>
 @property (nonatomic , assign)NSString* Hot;
@@ -22,6 +36,7 @@
      _tableView = [[UITableView alloc]initWithFrame:[UIScreen mainScreen].bounds];
     [self.view addSubview: _tableView];
     _tableView.backgroundColor = [UIColor blackColor];
+
     
     [_tableView release];
     self.bigDic = [NSDictionary dictionary];
@@ -35,36 +50,68 @@
 
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
+    
+    [self getDataFromUrl];
+
+    
+    
+    
+    
+    
+}
+
+- (void)getDataFromUrl
+{
     NSString *UrlStr = @"http://mmmono.com/api/category/all?page=1";
     //创建URL对象
     NSURL *url = [NSURL URLWithString:UrlStr];
     
     NetWorkEngine *net = [NetWorkEngine engineWithURL:url parameters:nil deleagte:self];
     
+    
     [net start];
-
-
-    
-    
-    
-    
-    
+//    [self.tableView.tableFooterView endRefreshing];
 }
-
-
+//- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+//{
+//    return 100;
+//}
 - (void)netWorkDidFinishLoading:(NetWorkEngine *)engine withInfo:(id)info
 {
     NSData *data = (NSData *)info;
     
     //大字典
-        self.bigDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    self.bigDic = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     
     //字典里的大数组
     self.arr = [self.bigDic objectForKey:@"items"];
-
+    MJRefreshAutoNormalFooter *footer = [MJRefreshAutoNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(getDataFromUrl)];
+    
+    // 禁止自动加载
+    footer.automaticallyRefresh = NO;
+    
+    // 设置footer
+    
+    self.tableView.tableFooterView = footer;
+    
     [self.tableView reloadData];
+//    self.tableView.tableFooterView
+    
     
 }
+
+- (void)endRefreshing
+{
+    if ([self.tableView isKindOfClass:[UICollectionView class]]) {
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [super endRefreshing];
+        });
+    } else {
+        [super endRefreshing];
+    }
+}
+
+
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {

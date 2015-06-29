@@ -33,9 +33,9 @@
     
     
     
-    self.imageArr = @[ @"VICE中国" ,@"创想计划" ,@"良仓", @"煎蛋" , @"外滩画报" , @"网易新闻" , @"映像新闻" ,];
+    self.imageArr = @[ @"VICE中国" ,@"味觉大师" ,@"良仓", @"煎蛋" , @"外滩画报" , @"网易新闻" , @"映像新闻" ,];
     
-    self.nameArr = @[@"VICE中国"  , @"创想计划" ,@"良仓"  , @"煎蛋" , @"外滩画报" , @"网易新闻"  , @"映像新闻" , ];
+    self.nameArr = @[@"VICE中国"  , @"味觉大师" ,@"良仓"  , @"煎蛋" , @"外滩画报" , @"网易新闻"  , @"映像新闻" , ];
     
     
     
@@ -45,7 +45,7 @@
     NSString *str4 = @"网易新闻是网易倾力打造的精品应用，已然成为国内第一新闻客户端，因体验最流畅、新闻最快速、评论最犀利而备受推崇";
     NSString *str5 = @"映象新闻客户端是由河南重点新闻网站映象网，官方精心打造的手机新闻阅读软件";
     NSString *str6 = @"VICE中国 | 全球青年文化之声：世界在下沉，我们狂欢";
-    NSString *str7 = @"VICE旗下的艺术频道。与intel一同呈现全球顶尖艺术与科技的探索平台";
+    NSString *str7 = @"味觉大师是一款展示厨艺，同时也传授厨艺的平台";
     self.introArr = @[ str6 , str7 ,str1 , str2 , str3 , str4 ,  str5 ];
    
     
@@ -61,10 +61,18 @@
 }
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    ZaoWuZhu1ViewController *zao1 = [[ZaoWuZhu1ViewController alloc]init];
-    zao1.indexPath = indexPath;
-    [self.navigationController pushViewController:zao1 animated:YES];
-    [zao1 release];
+    if (indexPath.row == 0) {
+        
+        
+        ZaoWuZhu1ViewController *zao1 = [[ZaoWuZhu1ViewController alloc]init];
+        zao1.indexPath = indexPath;
+        [self.navigationController pushViewController:zao1 animated:YES];
+    }
+    else if (indexPath.row == 1) {
+        ZaoWuZhu2ViewController *zao2 = [[ZaoWuZhu2ViewController alloc]init];
+        [self.navigationController pushViewController:zao2 animated:YES];
+        
+    }
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

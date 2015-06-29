@@ -10,5 +10,5 @@
 
 @interface ZaoWuZhu1ViewController : UIViewController
 @property (nonatomic , retain)NSIndexPath *indexPath;
-
+@property (nonatomic , retain)UITableView *tableView;
 @end
